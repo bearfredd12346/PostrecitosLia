@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Postresitos Lia - Deliciosos Postres Caseros</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            background-color: #fff5f5;
+            color: #333;
+        }
+        
+        /* Login Page */
+        .login-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #ffebee;
+        }
+        
+        .login-box {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+        }
+        
+        .login-box h1 {
+            color: #e91e63;
+            margin-bottom: 1.5rem;
+        }
+        
+        .login-box input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        
+        .login-box button {
+            background-color: #e91e63;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+            width: 100%;
+        }
+        
+        .login-box button:hover {
+            background-color: #c2185b;
+        }
+        
+        .error-message {
+            color: #f44336;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        /* Main Website */
+        .website-container {
+            display: none;
+        }
+        
+        /* Navigation Tabs */
+        .tabs {
+            display: flex;
+            width: 100%;
+            background-color: #e91e63;
+        }
+        
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 15px 0;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        
+        .tab:hover {
+            background-color: #c2185b;
+        }
+        
+        .tab.active {
+            background-color: #ad1457;
+        }
+        
+        /* Content Sections */
+        .content {
+            padding: 20px;
+            display: none;
+        }
+        
+        .content.active {
+            display: block;
+        }
+        
+        /* Home Section */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .gallery img {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+            height: 250px;
+            object-fit: cover;
+        }
+        
+        .gallery img:hover {
+            transform: scale(1.03);
+        }
+        
+        /* Reviews & Orders Section */
+        .review-form, .order-form {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .review-form h3, .order-form h3 {
+            margin-bottom: 15px;
+            color: #e91e63;
+        }
+        
+        textarea, select, input {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        
+        .stars {
+            display: flex;
+            justify-content: center;
+            margin: 15px 0;
+        }
+        
+        .star {
+            font-size: 24px;
+            color: #ddd;
+            cursor: pointer;
+            margin: 0 5px;
+        }
+        
+        .star.selected {
+            color: #ffc107;
+        }
+        
+        .order-type {
+            display: flex;
+            justify-content: space-around;
+            margin: 15px 0;
+        }
+        
+        .order-type label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        
+        .order-type input {
+            width: auto;
+            margin-right: 8px;
+        }
+        
+        button.submit-btn {
+            background-color: #e91e63;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+            width: 100%;
+        }
+        
+        button.submit-btn:hover {
+            background-color: #c2185b;
+        }
+        
+        .pickup-details {
+            display: none;
+            margin-top: 15px;
+        }
+        
+        /* Reviews Display */
+        .reviews-container {
+            margin-top: 30px;
+        }
+        
+        .review {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .review-author {
+            font-weight: bold;
+            color: #e91e63;
+        }
+        
+        .review-stars {
+            color: #ffc107;
+        }
+        
+        /* Contact Section */
+        .contact-info {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .contact-info h3 {
+            color: #e91e63;
+            margin-bottom: 15px;
+        }
+        
+        .contact-info p {
+            margin: 10px 0;
+        }
+        
+        .social-media {
+            margin-top: 30px;
+        }
+        
+        .social-media a {
+            display: inline-block;
+            margin-right: 15px;
+            color: #e91e63;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        .social-media a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Modal for Order Confirmation */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+        
+        .modal-content h3 {
+            color: #e91e63;
+            margin-bottom: 15px;
+        }
+        
+        .close-modal {
+            background-color: #e91e63;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Page -->
+    <div class="login-container" id="loginPage">
+        <div class="login-box">
+            <h1>Bienvenido a Postresitos Lia</h1>
+            <p>Por favor ingresa tu correo electrónico para continuar</p>
+            <input type="email" id="userEmail" placeholder="tu@email.com">
+            <div class="error-message" id="emailError">Por favor ingresa un correo electrónico válido</div>
+            <button onclick="checkLogin()">Ingresar</button>
+        </div>
+    </div>
+    
+    <!-- Main Website (hidden until login) -->
+    <div class="website-container" id="website">
+        <!-- Navigation Tabs -->
+        <div class="tabs">
+            <div class="tab active" onclick="showTab('home')">Inicio</div>
+            <div class="tab" onclick="showTab('reviews')">Reseñas & Pedidos</div>
+            <div class="tab" onclick="showTab('contact')">Contacto</div>
+        </div>
+        
+        <!-- Home Tab Content -->
+        <div class="content active" id="home">
+            <h2>Bienvenidos a Postresitos Lia</h2>
+            <p>Deliciosos postres caseros hechos con amor y los mejores ingredientes.</p>
+            
+            <div class="gallery">
+                <img src="https://i.ibb.co/jvY8TdLK/image1.jpg" alt="Postresitos Lia's specialty cake">
+                <img src="https://i.ibb.co/x8GgJG7Z/image2.jpg" alt="Custom birthday cake design">
+                <img src="https://i.ibb.co/yB88qkfn/image3.jpg" alt="Artisan cupcakes collection">
+                <img src="https://i.ibb.co/wFQT2G4J/image4.jpg" alt="Wedding dessert table">
+                <img src="https://i.ibb.co/ynQhvzZr/image5.jpg" alt="Chocolate fountain event">
+                <img src="https://i.ibb.co/r2HG1m5B/image6.jpg" alt="Seasonal fruit tart">
+                <img src="https://i.ibb.co/dSsRyCT/image7.jpg" alt="Custom cookie set">
+                <img src="https://i.ibb.co/Y7z4gmTW/image8.jpg" alt="Celebration cake display">
+            </div>
+        </div>
+        
+        <!-- Reviews & Orders Tab Content -->
+        <div class="content" id="reviews">
+            <h2>Reseñas & Pedidos</h2>
+            
+            <!-- Review Form -->
+            <div class="review-form">
+                <h3>Deja tu reseña</h3>
+                <input type="text" id="reviewName" placeholder="Tu nombre">
+                <textarea id="reviewText" placeholder="Cuéntanos tu experiencia..." rows="4"></textarea>
+                
+                <div class="stars">
+                    <span class="star" onclick="rate(1)">★</span>
+                    <span class="star" onclick="rate(2)">★</span>
+                    <span class="star" onclick="rate(3)">★</span>
+                    <span class="star" onclick="rate(4)">★</span>
+                    <span class="star" onclick="rate(5)">★</span>
+                </div>
+                
+                <button class="submit-btn" onclick="submitReview()">Enviar Reseña</button>
+            </div>
+            
+            <!-- Order Form -->
+            <div class="order-form">
+                <h3>Realizar Pedido</h3>
+                <input type="text" id="orderName" placeholder="Nombre completo">
+                <input type="text" id="orderPhone" placeholder="Teléfono">
+                <textarea id="orderDetails" placeholder="Detalles de tu pedido..." rows="3"></textarea>
+                
+                <div class="order-type">
+                    <label>
+                        <input type="radio" name="deliveryType" value="delivery" checked onclick="togglePickupDetails(false)"> 
+                        Delivery
+                    </label>
+                    <label>
+                        <input type="radio" name="deliveryType" value="pickup" onclick="togglePickupDetails(true)"> 
+                        Recoger en tienda
+                    </label>
+                </div>
+                
+                <div class="pickup-details" id="pickupDetails">
+                    <input type="text" id="pickupAddress" placeholder="Dirección para recoger">
+                    <input type="text" id="pickupTime" placeholder="Hora preferida para recoger">
+                </div>
+                
+                <button class="submit-btn" onclick="submitOrder()">Realizar Pedido</button>
+            </div>
+            
+            <!-- Reviews Display -->
+            <div class="reviews-container">
+                <h3>Reseñas de nuestros clientes</h3>
+                
+                <div class="review">
+                    <div class="review-header">
+                        <span class="review-author">María González</span>
+                        <span class="review-stars">★★★★★</span>
+                    </div>
+                    <p>Los pasteles son increíbles, siempre frescos y deliciosos. ¡Mi familia los ama!</p>
+                </div>
+                
+                <div class="review">
+                    <div class="review-header">
+                        <span class="review-author">Carlos Mendoza</span>
+                        <span class="review-stars">★★★★☆</span>
+                    </div>
+                    <p>Excelente servicio y los postres son de alta calidad. Recomiendo los cupcakes.</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Contact Tab Content -->
+        <div class="content" id="contact">
+            <h2>Contacto & Explora</h2>
+            
+            <div class="contact-info">
+                <h3>Información de Contacto</h3>
+                <p><strong>Teléfono:</strong> (+1 US) 346 801 0408</p>
+                <p><strong>Email:</strong> Normaor47@gmail.com</p>
+                <p><strong>Ubicación:</strong> Houston TX 77093</p>
+            </div>
+            
+            <div class="social-media">
+                <h3>Síguenos en redes sociales</h3>
+                <a href="https://www.tiktok.com/@postrecitos_22" target="_blank">TikTok: @postrecitos_22</a>
+                <a href="https://www.facebook.com/share/16tSC3YsVG/" target="_blank">Facebook: Postresitos Lia</a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Order Confirmation Modal -->
+    <div class="modal" id="orderModal">
+        <div class="modal-content">
+            <h3>¡Pedido Recibido!</h3>
+            <p>Gracias por tu pedido. Nos pondremos en contacto contigo pronto para confirmar los detalles.</p>
+            <button class="close-modal" onclick="closeModal()">Cerrar</button>
+        </div>
+    </div>
+    
+    <script>
+        // Login Functionality with email validation
+        function checkLogin() {
+            const email = document.getElementById('userEmail').value;
+            const emailError = document.getElementById('emailError');
+            
+            // Regular expression for email validation
+            const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            
+            if (!emailRegex.test(email)) {
+                emailError.style.display = 'block';
+                return;
+            } else {
+                emailError.style.display = 'none';
+            }
+            
+            // Check for common email domains
+            const validDomains = ['gmail.com', 'yahoo.com', 'hotmail.com', 'outlook.com', 'icloud.com'];
+            const domain = email.split('@')[1];
+            
+            if (!validDomains.includes(domain)) {
+                emailError.textContent = 'Por favor usa un correo de dominio válido (Gmail, Yahoo, Hotmail, etc.)';
+                emailError.style.display = 'block';
+                return;
+            }
+            
+            // If validation passes
+            document.getElementById('loginPage').style.display = 'none';
+            document.getElementById('website').style.display = 'block';
+        }
+        
+        // Tab Navigation
+        function showTab(tabId) {
+            // Hide all content and remove active class from tabs
+            document.querySelectorAll('.content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected tab and content
+            document.getElementById(tabId).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+        
+        // Review Rating
+        let currentRating = 0;
+        
+        function rate(stars) {
+            currentRating = stars;
+            
+            // Update star display
+            const starElements = document.querySelectorAll('.star');
+            starElements.forEach((star, index) => {
+                if (index < stars) {
+                    star.classList.add('selected');
+                } else {
+                    star.classList.remove('selected');
+                }
+            });
+        }
+        
+        // Submit Review
+        function submitReview() {
+            const name = document.getElementById('reviewName').value;
+            const text = document.getElementById('reviewText').value;
+            
+            if (!name || !text || currentRating === 0) {
+                alert('Por favor completa todos los campos y selecciona una calificación');
+                return;
+            }
+            
+            // In a real app, this would send to a server
+            const reviewsContainer = document.querySelector('.reviews-container');
+            const newReview = document.createElement('div');
+            newReview.className = 'review';
+            newReview.innerHTML = `
+                <div class="review-header">
+                    <span class="review-author">${name}</span>
+                    <span class="review-stars">${'★'.repeat(currentRating)}${'☆'.repeat(5 - currentRating)}</span>
+                </div>
+                <p>${text}</p>
+            `;
+            
+            reviewsContainer.appendChild(newReview);
+            
+            // Clear form
+            document.getElementById('reviewName').value = '';
+            document.getElementById('reviewText').value = '';
+            rate(0);
+            
+            alert('¡Gracias por tu reseña!');
+        }
+        
+        // Toggle Pickup Details
+        function togglePickupDetails(show) {
+            document.getElementById('pickupDetails').style.display = show ? 'block' : 'none';
+        }
+        
+        // Submit Order
+        function submitOrder() {
+            const name = document.getElementById('orderName').value;
+            const phone = document.getElementById('orderPhone').value;
+            const details = document.getElementById('orderDetails').value;
+            const deliveryType = document.querySelector('input[name="deliveryType"]:checked').value;
+            
+            if (!name || !phone || !details) {
+                alert('Por favor completa todos los campos obligatorios');
+                return;
+            }
+            
+            if (deliveryType === 'pickup') {
+                const address = document.getElementById('pickupAddress').value;
+                const time = document.getElementById('pickupTime').value;
+                
+                if (!address || !time) {
+                    alert('Por favor completa los detalles para recoger');
+                    return;
+                }
+            }
+            
+            // In a real app, this would send to a server and save to "Customer orders"
+            document.getElementById('orderModal').style.display = 'flex';
+            
+            // Clear form
+            document.getElementById('orderName').value = '';
+            document.getElementById('orderPhone').value = '';
+            document.getElementById('orderDetails').value = '';
+            document.getElementById('pickupAddress').value = '';
+            document.getElementById('pickupTime').value = '';
+            document.querySelector('input[value="delivery"]').checked = true;
+            togglePickupDetails(false);
+        }
+        
+        // Close Modal
+        function closeModal() {
+            document.getElementById('orderModal').style.display = 'none';
+        }
+        
+        // Add event listener for Enter key on login
+        document.getElementById('userEmail').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkLogin();
+            }
+        });
+    </script>
+</body>
+</html>
